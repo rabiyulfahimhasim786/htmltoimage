@@ -17,7 +17,7 @@ from django.http import HttpResponse
 
 
 #import pdfkit
-
+#import imgkit
 def index(request):
     return HttpResponse("Hello, world!")
 
@@ -78,4 +78,18 @@ def pdfurl(request):
     #print(rank[8:-5])
     #print('/media/'+rank[8:-5]+'.pdf')
     #pdfkit.from_url('rank', '/media/'+rank[8:-5]+'.pdf')
+    return HttpResponse("Hello, world!")
+
+
+
+def imgurl(request):
+    documents = Pdf.objects.all()
+    #rank = Document.objects.latest('id')
+    #print(rank)
+    for obj in documents:
+        img = obj.link
+        #print(img)
+    #print(img[8:-5])
+    #print('/media/'+img[8:-5]+'.pdf')
+    #imgkit.from_url('img', '/media/'+img[8:-5]+'.pdf')
     return HttpResponse("Hello, world!")
