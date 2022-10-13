@@ -15,9 +15,11 @@ from django.http import HttpResponse
 # Create your views here.
 from django.http import HttpResponse
 
-
-#import pdfkit
-#import imgkit
+import img2pdf
+from PIL import Image
+import os
+import pdfkit
+import imgkit
 def index(request):
     return HttpResponse("Hello, world!")
 
@@ -77,7 +79,7 @@ def pdfurl(request):
         #print(rank)
     #print(rank[8:-5])
     #print('/media/'+rank[8:-5]+'.pdf')
-    #pdfkit.from_url('rank', '/media/'+rank[8:-5]+'.pdf')
+    pdfkit.from_url(rank, './media/pdf/'+rank[8:-5]+'.pdf')
     return HttpResponse("Hello, world!")
 
 
@@ -90,6 +92,28 @@ def imgurl(request):
         img = obj.link
         #print(img)
     #print(img[8:-5])
-    #print('/media/'+img[8:-5]+'.pdf')
-    #imgkit.from_url('img', '/media/'+img[8:-5]+'.pdf')
+    #print('/media/'+img[8:-5]+'.jpg')
+    imgkit.from_url(img, './media/img/'+img[8:-5]+'.jpg')
+    img_path =  './media/img/'+img[8:-5]+'.jpg'
+
+    # storing pdf path
+    pdf_path = './media/img/'+img[8:-5]+'.pdf'
+
+    # opening image
+    image = Image.open(img_path)
+
+    # converting into chunks using img2pdf
+    pdf_bytes = img2pdf.convert(image.filename)
+
+    # opening or creating pdf file 
+    file = open(pdf_path, "wb")
+
+    # writing pdf files with chunks
+    file.write(pdf_bytes)
+
+    # closing image file
+    image.close()
+
+    # closing pdf file
+    file.close()
     return HttpResponse("Hello, world!")
