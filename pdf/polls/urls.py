@@ -6,6 +6,7 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('pdfurl/', views.pdfurl, name='pdfurl'),
     path('imgurl/', views.imgurl, name='imgurl'),
+    path('imgtopdf/', views.imgtopdf, name='imgtopdf'),
     path('pdf/', views.PdfList.as_view()),
     path('pdf/<int:pk>/', views.PdfDetail.as_view()),
     #path('fileuploading/', views.uploadings, name='uploadings'),

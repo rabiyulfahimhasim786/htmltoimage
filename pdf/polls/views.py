@@ -1,5 +1,5 @@
 #from django.shortcuts import render
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 
 from rest_framework.response import Response
@@ -76,10 +76,11 @@ def pdfurl(request):
     #print(rank)
     for obj in documents:
         rank = obj.link
+        num  =  obj.number
         #print(rank)
     #print(rank[8:-5])
     #print('/media/'+rank[8:-5]+'.pdf')
-    pdfkit.from_url(rank, './media/pdf/'+rank[8:-5]+'.pdf')
+    pdfkit.from_url(rank, './media/pdf/'+str(num)+'.pdf')
     return HttpResponse("Hello, world!")
 
 
@@ -90,14 +91,30 @@ def imgurl(request):
     #print(rank)
     for obj in documents:
         img = obj.link
+        numb = obj.number
         #print(img)
     #print(img[8:-5])
     #print('/media/'+img[8:-5]+'.jpg')
-    imgkit.from_url(img, './media/img/'+img[8:-5]+'.jpg')
-    img_path =  './media/img/'+img[8:-5]+'.jpg'
+    imgkit.from_url(img, './media/img/'+str(numb)+'.jpg')
+    #return HttpResponse("Hello, world!")
+    return redirect('imgtopdf')
+
+
+def imgtopdf(request):
+    documents = Pdf.objects.all()
+    #rank = Document.objects.latest('id')
+    #print(rank)
+    for obj in documents:
+        img = obj.link
+        numb = obj.number
+        #print(img)
+    #print(img[8:-5])
+    #print('/media/'+img[8:-5]+'.jpg')
+    #imgkit.from_url(img, './media/img/'+str(numb)+'.jpg')
+    img_path =  './media/img/'+str(numb)+'.jpg'
 
     # storing pdf path
-    pdf_path = './media/img/'+img[8:-5]+'.pdf'
+    pdf_path = './media/img/'+str(numb)+'.pdf'
 
     # opening image
     image = Image.open(img_path)
